@@ -11,7 +11,7 @@ Citizen.CreateThread(function()
 	SetBlipAsShortRange(blip, true)
 	SetBlipColour(blip, 3)
 	BeginTextCommandSetBlipName("STRING")
-	AddTextComponentSubstringPlayerName("Horta Agricula") -- Mudar nome do Blip aqui!
+	AddTextComponentSubstringPlayerName("Farm") -- Mudar nome do Blip aqui!
     EndTextCommandSetBlipName(blip)
 end)
 
@@ -24,7 +24,7 @@ Citizen.CreateThread(function()
 	SetBlipAsShortRange(blip, true)
 	SetBlipColour(blip, 3)
 	BeginTextCommandSetBlipName("STRING")
-	AddTextComponentSubstringPlayerName("Processo Agricula") -- Mudar nome do Blip aqui!
+	AddTextComponentSubstringPlayerName("Farm Process") -- Mudar nome do Blip aqui!
     EndTextCommandSetBlipName(blip)
 end)
 
@@ -37,7 +37,7 @@ Citizen.CreateThread(function()
 	SetBlipAsShortRange(blip, true)
 	SetBlipColour(blip, 3)
 	BeginTextCommandSetBlipName("STRING")
-	AddTextComponentSubstringPlayerName("Venda Agricula") -- Mudar nome do Blip aqui!
+	AddTextComponentSubstringPlayerName("Farm Sell") -- Mudar nome do Blip aqui!
     EndTextCommandSetBlipName(blip)
 end)
 
@@ -55,7 +55,7 @@ RegisterNetEvent('mt-farm:client:Apanhar', function()
 		if HasItem then
 			if nearbyObject and IsPedOnFoot(playerPed) then
 				isPickingUp = true
-                QBCore.Functions.Progressbar("Apanhar", "A APANHAR PLANTA..", 5000)
+                QBCore.Functions.Progressbar("Apanhar", "CATCHING PLANT..", 5000)
 				TaskStartScenarioInPlace(playerPed, 'world_human_gardener_plant', 0, false)
 				Wait(6500)
 				ClearPedTasks(playerPed)
@@ -65,10 +65,10 @@ RegisterNetEvent('mt-farm:client:Apanhar', function()
 				spawnedPlants = spawnedPlants - 1
 				TriggerServerEvent('mt-farm:server:Apanhar')
 			else
-				QBCore.Functions.Notify('Estás bue longe, vem apra mais perto..', 'error', 3500)
+				QBCore.Functions.Notify('You are too far way...', 'error', 3500)
 			end
 		else
-			QBCore.Functions.Notify('Não tens uma pá para apanhar a planta!', 'error', 3500)
+			QBCore.Functions.Notify('You dont have a towler!', 'error', 3500)
 		end
 	end, "trowel")
 end)
@@ -180,7 +180,7 @@ exports['qb-target']:AddTargetModel(`prop_bush_dead_02`, {
         {
             event = "mt-farm:client:Apanhar",
             icon = "fas fa-seedling",
-            label = "Apanhar Planta",
+            label = "Harvest Plant",
         },
     },
     distance = 2.0
@@ -198,7 +198,7 @@ Citizen.CreateThread(function ()
                 type = "Client",
                 event = "farm:processos",
                 icon = "fas fa-seedling",
-                label = 'Processar Alimentos'
+                label = 'Process Food'
             },
         },
         distance = 2.5
@@ -217,7 +217,7 @@ Citizen.CreateThread(function ()
                 type = "Client",
                 event = "mt-farm:client:vendas",
                 icon = "fas fa-seedling",
-                label = 'Falar com o Comprador'
+                label = 'Talk with employee'
             },
         },
         distance = 2.5
@@ -264,7 +264,7 @@ AddEventHandler("farm:processo", function()
         TriggerServerEvent("farm:processo")
         ClearPedTasks(playerPed)
     else
-        QBCore.Functions.Notify("Falhado!", "error")
+        QBCore.Functions.Notify("Failed!", "error")
         ClearPedTasks(playerPed)
         end
     end)
@@ -275,12 +275,12 @@ RegisterNetEvent('farm:processos', function()
     exports['qb-menu']:openMenu({
         {
             id = 1,
-            header = "Fazer Farinha",
+            header = "make flour",
             txt = "Necessário: 1 Trigo"
         },
         {
             id = 2,
-            header = "Começar",
+            header = "Start",
             txt = "",
             params = {
                 event = "farm:processo",
@@ -288,7 +288,7 @@ RegisterNetEvent('farm:processos', function()
         },
         {
             id = 3,
-            header = "Fechar",
+            header = "Close",
             txt = "",
             params = {
                 event = "qb-menu:closeMenu",
@@ -298,43 +298,16 @@ RegisterNetEvent('farm:processos', function()
     })
 end)
 
--- Menu de venda
---[[RegisterNetEvent('farm:vendas', function()
-    exports['qb-menu']:openMenu({
-        {
-            id = 1,
-            header = "Vender Alimentos",
-            txt = ""
-        },
-        {
-            id = 2,
-            header = "Vender Tudo",
-            txt = "Esta ação irá vender todos os alimentos que tens contigo!",
-            params = {
-                event = "farm:venda",
-            }
-        },
-        {
-            id = 3,
-            header = "Fechar",
-            txt = "",
-            params = {
-                event = "qb-menu:closeMenu",
-            }
-        },
-
-    })
-end)]]
 RegisterNetEvent('mt-farm:client:vendas')
 AddEventHandler('mt-farm:client:vendas', function()
     exports['qb-menu']:openMenu({
 		{
-            header = "vender Alimentos",
+            header = "Sell Food",
             isMenuHeader = true
         },
         {
-            header = "Vender Tomate",
-            txt = "Preço atual: $2 cada",
+            header = "Tomato",
+            txt = "Price: $2",
             params = {
 				isServer = true,
                 event = "mt-farm:server:vendas",
@@ -342,8 +315,8 @@ AddEventHandler('mt-farm:client:vendas', function()
             }
         },
         {
-            header = "Vender Farinha",
-            txt = "Preço atual: $5 cada",
+            header = "Flour",
+            txt = "Price: $5",
             params = {
 				isServer = true,
                 event = "mt-farm:server:vendas",
@@ -351,8 +324,8 @@ AddEventHandler('mt-farm:client:vendas', function()
             }
         },
 		{
-            header = "Vender Alface",
-            txt = "Preço atual: $2 cada",
+            header = "Lectuce",
+            txt = "Price: $2",
             params = {
 				isServer = true,
                 event = "mt-farm:server:vendas",
@@ -360,8 +333,8 @@ AddEventHandler('mt-farm:client:vendas', function()
             }
         },
         {
-            header = "Vender Cebola",
-            txt = "Preço atual: $2 cada",
+            header = "Onion",
+            txt = "Price: $2",
             params = {
 				isServer = true,
                 event = "mt-farm:server:vendas",
@@ -369,8 +342,8 @@ AddEventHandler('mt-farm:client:vendas', function()
             }
         },
 		{
-            header = "Vender Batatas",
-            txt = "Preço atual: $2 cada",
+            header = "Potatos",
+            txt = "Price: $2",
             params = {
 				isServer = true,
                 event = "mt-farm:server:vendas",
@@ -378,8 +351,8 @@ AddEventHandler('mt-farm:client:vendas', function()
             }
         },	
         {
-            header = "Vender Cenoura",
-            txt = "Preço atual: $2 cada",
+            header = "Carot",
+            txt = "Price: $2",
             params = {
 				isServer = true,
                 event = "mt-farm:server:vendas",
@@ -387,8 +360,8 @@ AddEventHandler('mt-farm:client:vendas', function()
             }
         },	
         {
-            header = "Vender Couve",
-            txt = "Preço atual: $2 cada",
+            header = "Green cabbage",
+            txt = "Price: $2",
             params = {
 				isServer = true,
                 event = "mt-farm:server:vendas",
@@ -396,7 +369,7 @@ AddEventHandler('mt-farm:client:vendas', function()
             }
         },				
         {
-            header = "< Fechar",
+            header = "< Close",
             txt = "",
             params = {
                 event = "qb-menu:closeMenu"

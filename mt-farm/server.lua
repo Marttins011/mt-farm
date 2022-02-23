@@ -92,7 +92,7 @@ RegisterNetEvent('mt-farm:server:vendas', function(args)
 		else
 		    TriggerClientEvent('QBCore:Notify', src, "You dont have anything to sell", "error")
         end
-	elseif arg == 2 then
+	elseif args == 2 then
 		local farinha = Player.Functions.GetItemByName("farinha")
 		if farinha ~= nil then
 			local payment = 5
